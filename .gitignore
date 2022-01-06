@@ -1,3 +1,4 @@
 .*
+*.proof
 !.gitignore
 ../algo à ne pas prendre en compte
