@@ -68,6 +68,9 @@ def get_best_investments(list_stocks, budget):
 
 
 def display_results(best_investment):
+    """
+    print the best investment informations
+    """
     stocks_to_buy = [stock[0] for stock in best_investment[0]]
     print(
         f'Stocks to buy : {", ".join(stocks_to_buy)}\n',

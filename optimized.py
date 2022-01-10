@@ -1,3 +1,9 @@
+"""
+dynamic programming algorithm that returns the best investment
+for more information see the Knapsack problem
+"""
+
+
 import csv
 import glob
 import pstats
@@ -14,7 +20,7 @@ def choose_enquierries(message, options):
 
 def convert_csv_list(csv_name):
     """convert CSV to list.
-    Get data from a CSV file, exclude stock with value or return < 0
+    exclude stock with value or return < 0 and remove doublons
     """
     file = open(csv_name, "r")
     csv_reader = csv.reader(file)
@@ -27,7 +33,19 @@ def convert_csv_list(csv_name):
 
 
 def get_matrix_best_invest_dynamic_algo(stocks, budget):
+    """
+    return a 2D matrix
+    it calculate the best investment in an incremental way:
+    increment the budget from 0 with 1,
+    by adding an element to each iteration
 
+    Args:
+        stocks ([list]): [each stock contain: name, cost, return]
+        budget ([float])
+
+    Returns:
+        [2D list]: [matrix]
+    """
     matrix = [
         [0 for _ in range(budget + 1)] for _ in range(len(stocks) + 1)
     ]
@@ -45,7 +63,9 @@ def get_matrix_best_invest_dynamic_algo(stocks, budget):
 
 
 def get_best_invest_from_matrix(stocks, budget, matrix):
-
+    """
+    return best investment value and list of stocks
+    """
     n = len(stocks)
     best_invest = []
     while budget != 0 and n != 0:
@@ -57,6 +77,9 @@ def get_best_invest_from_matrix(stocks, budget, matrix):
 
 
 def display_results(best_investment):
+    """
+    print the best investment informations
+    """
     stocks_to_buy = [stock[0] for stock in best_investment[1]]
     print(
         f'Stocks to buy : {", ".join(stocks_to_buy)}\n',

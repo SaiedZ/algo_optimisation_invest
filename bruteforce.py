@@ -30,18 +30,21 @@ def convert_csv_list(csv_name):
     })
 
 
-def best_invest_brute_force(budget, elements, elements_selection=[]):
-    if not elements:
-        return sum(i[2] for i in elements_selection), elements_selection
+def best_invest_brute_force(budget, stocks, stocks_selection=[]):
+    """
+    return best investment by exploring all combinations
+    """
+    if not stocks:
+        return sum(i[2] for i in stocks_selection), stocks_selection
 
     invest_without_first, list_invest_without_first = best_invest_brute_force(
-        budget, elements[1:], elements_selection)
-    first_element = elements[0]
+        budget, stocks[1:], stocks_selection)
+    first_element = stocks[0]
     if first_element[1] <= budget:
         invest_with_first, list_invest_with_first = best_invest_brute_force(
             budget - first_element[1],
-            elements[1:],
-            elements_selection + [first_element]
+            stocks[1:],
+            stocks_selection + [first_element]
         )
         if invest_without_first < invest_with_first:
             return invest_with_first, list_invest_with_first
@@ -50,6 +53,9 @@ def best_invest_brute_force(budget, elements, elements_selection=[]):
 
 
 def display_results(best_investment, list_stocks):
+    """
+    print the best investment informations
+    """
     stocks_to_buy = [stock[0] for stock in list_stocks]
     print(
         f'Stocks to buy : {", ".join(stocks_to_buy)}\n',
