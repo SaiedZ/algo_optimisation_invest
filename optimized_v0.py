@@ -46,23 +46,19 @@ def get_matrix_best_invest_dynamic_algo(stocks, budget):
     Returns:
         [2D list]: [matrix]
     """
-    matrix = [[0] * (budget + 1)]
-    i = 1
+    matrix = [
+        [0 for _ in range(budget + 1)] for _ in range(len(stocks) + 1)
+    ]
 
-    while i < len(stocks) + 1:
-
-        cost_i = stocks[i-1][1]
-        matrix_line_first_part = matrix[i-1][:cost_i]
-
-        matrix_line_second_part = [
-            max(
-                matrix[i-1][j],
-                stocks[i-1][2] + matrix[i-1][j-stocks[i-1][1]])
-            for j in range(cost_i, budget + 1)
-        ]
-
-        matrix.append(matrix_line_first_part + matrix_line_second_part)
-        i += 1
+    for i in range(1, len(stocks) + 1):
+        for j in range(1, budget + 1):
+            if stocks[i-1][1] > j:
+                matrix[i][j] = matrix[i-1][j]
+            else:
+                matrix[i][j] = max(
+                    matrix[i-1][j],
+                    stocks[i-1][2] + matrix[i-1][j-stocks[i-1][1]]
+                    )
     return matrix
 
 
@@ -100,12 +96,11 @@ def main():
     file_name = choose_enquierries("Fichier à analyser: ", list_files)
 
     t1 = perf_counter()
-
     stocks = convert_csv_list(file_name)
     matrix_knapsack_algo = get_matrix_best_invest_dynamic_algo(
         stocks, budget_cents)
-    best_investment = get_best_invest_from_matrix(stocks, budget_cents,
-                                                  matrix_knapsack_algo)
+    best_investment = get_best_invest_from_matrix(
+        stocks, budget_cents, matrix_knapsack_algo)
     display_results(best_investment)
 
     t2 = perf_counter()
