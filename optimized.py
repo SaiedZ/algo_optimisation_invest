@@ -19,14 +19,14 @@ def convert_csv_list(csv_name):
     file = open(csv_name, "r")
     csv_reader = csv.reader(file)
     next(csv_reader)
-    return [
+    return list({
         (row[0], int(float(row[1])*100), float(row[2])*float(row[1])/100)
         for row in csv_reader
         if float(row[2]) > 0 and float(row[1]) > 0
-    ]
+    })
 
 
-def best_invest_dynamic_algo_2time(stocks, budget):
+def get_matrix_best_invest_dynamic_algo(stocks, budget):
 
     matrix = [
         [0 for _ in range(budget + 1)] for _ in range(len(stocks) + 1)
@@ -69,15 +69,15 @@ def main():
 
     budget = float(input("Budget client en euros: "))
     budget_cents = int(budget * 100)
-    liste = glob.glob("./csv_to_analyse/*.csv")
-    file_name = choose_enquierries("Fichier à analyser: ", liste)
+    list_files = glob.glob("./csv_to_analyse/*.csv")
+    file_name = choose_enquierries("Fichier à analyser: ", list_files)
 
     t1 = perf_counter()
     stocks = convert_csv_list(file_name)
-    matrix_knapsack_algo = best_invest_dynamic_algo_2time(stocks,
-                                                          budget_cents)
-    best_investment = get_best_invest_from_matrix(stocks, budget_cents,
-                                                  matrix_knapsack_algo)
+    matrix_knapsack_algo = get_matrix_best_invest_dynamic_algo(
+        stocks, budget_cents)
+    best_investment = get_best_invest_from_matrix(
+        stocks, budget_cents, matrix_knapsack_algo)
     display_results(best_investment)
 
     t2 = perf_counter()
