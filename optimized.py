@@ -99,9 +99,9 @@ def main():
     list_files = glob.glob("./csv_to_analyse/*.csv")
     file_name = choose_enquierries("Fichier à analyser: ", list_files)
 
+    stocks = convert_csv_list(file_name)
     t1 = perf_counter()
 
-    stocks = convert_csv_list(file_name)
     matrix_knapsack_algo = get_matrix_best_invest_dynamic_algo(
         stocks, budget_cents)
     best_investment = get_best_invest_from_matrix(stocks, budget_cents,

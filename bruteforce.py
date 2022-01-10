@@ -68,9 +68,9 @@ def main():
     budget = float(input("Budget client en euros: "))
     list_files = glob.glob("./csv_to_analyse/*.csv")
     file_name = choose_enquierries("Fichier à analyser: ", list_files)
-    stocks = convert_csv_list(file_name)
 
     t1 = perf_counter()
+    stocks = convert_csv_list(file_name)
     best_investment, list_stocks = best_invest_brute_force(budget, stocks)
     display_results(best_investment, list_stocks)
     t2 = perf_counter()
